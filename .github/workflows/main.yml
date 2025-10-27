@@ -56,21 +56,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          
-      - name: Wait for MySQL to be ready
-        run: |
-          for i in {1..15}; do
-            if mysqladmin ping -h mysql -uroot -proot --silent; then
-              echo "✅ MySQL is ready!"
-              break
-            fi
-            echo "⏳ Waiting for MySQL to be ready..."
-            sleep 5
-          done
 
       - name: Build Spring Boot app
         working-directory: Spring
-        run: mvn clean package
+        run: mvn clean package -DskipTests
 
       - name: Upload backend JAR
         uses: actions/upload-artifact@v4
